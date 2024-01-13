@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin: 50px;
+    }
+
+    #display {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    button {
+      font-size: 1em;
+      padding: 10px;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="display">00:00:00</div>
+<button onclick="startStop()">Start / Stop</button>
+<button onclick="reset()">Reset</button>
+
+<script>
+  let timer;
+  let seconds = 0;
+  let minutes = 0;
+  let hours = 0;
+
+  function startStop() {
+    if (timer) {
+      // Stop the timer
+      clearInterval(timer);
+      timer = null;
+    } else {
+      // Start the timer
+      timer = setInterval(updateTime, 1000);
+    }
+  }
+
+  function reset() {
+    // Stop the timer
+    clearInterval(timer);
+
+    // Reset the time variables
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+
+    // Update the display
+    updateDisplay();
+  }
+
+  function updateTime() {
+    seconds++;
+
+    if (seconds === 60) {
+      seconds = 0;
+      minutes++;
+
+      if (minutes === 60) {
+        minutes = 0;
+        hours++;
+      }
+    }
+
+    updateDisplay();
+  }
+
+  function updateDisplay() {
+    const formattedTime = `${padNumber(hours)}:${padNumber(minutes)}:${padNumber(seconds)}`;
+    document.getElementById('display').innerText = formattedTime;
+  }
+
+  function padNumber(number) {
+    return number < 10 ? `0${number}` : number;
+  }
+</script>
+
+</body>
+</html>
